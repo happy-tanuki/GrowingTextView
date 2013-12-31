@@ -101,19 +101,24 @@
 - (void)drawRect:(CGRect)rect
 {
     [super drawRect:rect];
-    if (self.displayPlaceHolder && self.placeholder && self.placeholderColor)
-    {
-        if ([self respondsToSelector:@selector(snapshotViewAfterScreenUpdates:)])
-        {
-            NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-            paragraphStyle.alignment = self.textAlignment;
-            [self.placeholder drawInRect:CGRectMake(5, 8 + self.contentInset.top, self.frame.size.width-self.contentInset.left, self.frame.size.height- self.contentInset.top) withAttributes:@{NSFontAttributeName:self.font, NSForegroundColorAttributeName:self.placeholderColor, NSParagraphStyleAttributeName:paragraphStyle}];
-        }
-        else {
-            [self.placeholderColor set];
-            [self.placeholder drawInRect:CGRectMake(8.0f, 8.0f, self.frame.size.width - 16.0f, self.frame.size.height - 16.0f) withFont:self.font];
-        }
-    }
+    if (self.displayPlaceHolder && self.placeholder && self.placeholderColor) {
+		// Inset the rect
+		rect = UIEdgeInsetsInsetRect(rect, self.contentInset);
+        
+		// TODO: This is hacky. Not sure why 8 is the magic number
+		if (self.contentInset.left == 0.0f) {
+			rect.origin.x += 8.0f;
+		}
+		rect.origin.y += 8.0f;
+        
+		// Draw the text
+		[self.placeholderColor set];
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_6_0
+		[_placeholder drawInRect:rect withFont:self.font lineBreakMode:NSLineBreakByTruncatingTail alignment:self.textAlignment];
+#else
+		[_placeholder drawInRect:rect withFont:self.font lineBreakMode:UILineBreakModeTailTruncation alignment:self.textAlignment];
+#endif
+	}
 }
 
 -(void)setPlaceholder:(NSString *)placeholder
