@@ -351,7 +351,7 @@
 {
     if ([self respondsToSelector:@selector(snapshotViewAfterScreenUpdates:)])
     {
-        return ceilf([self.internalTextView sizeThatFits:self.internalTextView.frame.size].height);
+        return ceilf([self.internalTextView sizeThatFits:CGSizeMake(self.internalTextView.frame.size.width, MAXFLOAT)].height);
     }
     else {
         return self.internalTextView.contentSize.height;
