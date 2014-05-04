@@ -129,7 +129,7 @@
     [super layoutSubviews];
     
 	CGRect r = self.bounds;
-	r.origin.y = 0;
+	r.origin.y = contentInset.top;
 	r.origin.x = contentInset.left;
     r.size.width -= contentInset.left + contentInset.right;
     
@@ -141,7 +141,7 @@
     contentInset = inset;
     
     CGRect r = self.frame;
-    r.origin.y = inset.top - inset.bottom;
+    r.origin.y = inset.top;
     r.origin.x = inset.left;
     r.size.width -= inset.left + inset.right;
     
@@ -349,19 +349,21 @@
 // Code from apple developer forum - @Steve Krulewitz, @Mark Marszal, @Eric Silverberg
 - (CGFloat)measureHeight
 {
+    CGFloat textViewHeight;
     if ([self respondsToSelector:@selector(snapshotViewAfterScreenUpdates:)])
     {
-        return ceilf([self.internalTextView sizeThatFits:CGSizeMake(self.internalTextView.frame.size.width, MAXFLOAT)].height);
+        textViewHeight = ceilf([self.internalTextView sizeThatFits:CGSizeMake(self.internalTextView.frame.size.width, MAXFLOAT)].height);
     }
     else {
-        return self.internalTextView.contentSize.height;
+        textViewHeight = self.internalTextView.contentSize.height;
     }
+    return textViewHeight + contentInset.top + contentInset.bottom;
 }
 
 - (void)resetScrollPositionForIOS7
 {
     CGRect r = [internalTextView caretRectForPosition:internalTextView.selectedTextRange.end];
-    CGFloat caretY =  MAX(r.origin.y - internalTextView.frame.size.height + r.size.height + 8, 0);
+    CGFloat caretY =  MAX(r.origin.y - internalTextView.frame.size.height + r.size.height + 8 + contentInset.bottom + contentInset.top, 0);
     if (internalTextView.contentOffset.y < caretY && r.origin.y != INFINITY)
         internalTextView.contentOffset = CGPointMake(0, caretY);
 }
@@ -376,7 +378,7 @@
     internalTextViewFrame.size.height = newSizeH; // + padding
     self.frame = internalTextViewFrame;
     
-    internalTextViewFrame.origin.y = contentInset.top - contentInset.bottom;
+    internalTextViewFrame.origin.y = contentInset.top;
     internalTextViewFrame.origin.x = contentInset.left;
     
     if(!CGRectEqualToRect(internalTextView.frame, internalTextViewFrame)) internalTextView.frame = internalTextViewFrame;
