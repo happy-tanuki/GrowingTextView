@@ -381,6 +381,10 @@
     internalTextViewFrame.origin.y = contentInset.top;
     internalTextViewFrame.origin.x = contentInset.left;
     
+    // force to update contentSize of internalTextView (needed on iOS7)
+    [internalTextView sizeToFit];
+    [internalTextView layoutIfNeeded];
+    
     if(!CGRectEqualToRect(internalTextView.frame, internalTextViewFrame)) internalTextView.frame = internalTextViewFrame;
 }
 
