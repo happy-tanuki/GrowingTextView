@@ -289,7 +289,7 @@
 		{
             if(animateHeightChange) {
                 
-                if ([UIView resolveClassMethod:@selector(animateWithDuration:animations:)]) {
+                if ([UIView respondsToSelector:@selector(animateWithDuration:delay:options:animations:completion:)]) {
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 40000
                     [UIView animateWithDuration:animationDuration 
                                           delay:0 
