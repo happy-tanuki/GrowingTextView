@@ -69,7 +69,12 @@
     NSTimeInterval animationDuration;
 	
 	//uitextview properties
-	NSObject <HPGrowingTextViewDelegate> *__unsafe_unretained delegate;
+#if __has_feature(objc_arc_weak)
+    NSObject <HPGrowingTextViewDelegate> *__weak delegate;
+#else
+    NSObject <HPGrowingTextViewDelegate> *__unsafe_unretained delegate;
+#endif
+
 	NSTextAlignment textAlignment;
 	NSRange selectedRange;
 	BOOL editable;
@@ -93,7 +98,12 @@
 
 
 //uitextview properties
+#if __has_feature(objc_arc_weak)
+@property(weak) NSObject<HPGrowingTextViewDelegate> *delegate;
+#else
 @property(unsafe_unretained) NSObject<HPGrowingTextViewDelegate> *delegate;
+#endif
+
 @property(nonatomic,strong) NSString *text;
 @property(nonatomic,strong) UIFont *font;
 @property(nonatomic,strong) UIColor *textColor;
