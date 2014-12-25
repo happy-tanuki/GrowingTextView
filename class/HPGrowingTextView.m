@@ -129,7 +129,7 @@
     [super layoutSubviews];
     
 	CGRect r = self.bounds;
-	r.origin.y = 0;
+	r.origin.y = contentInset.top;
 	r.origin.x = contentInset.left;
     r.size.width -= contentInset.left + contentInset.right;
     
@@ -141,7 +141,7 @@
     contentInset = inset;
     
     CGRect r = self.frame;
-    r.origin.y = inset.top - inset.bottom;
+    r.origin.y = inset.top;
     r.origin.x = inset.left;
     r.size.width -= inset.left + inset.right;
     
@@ -406,7 +406,7 @@
 - (void)resetScrollPositionForIOS7
 {
     CGRect r = [internalTextView caretRectForPosition:internalTextView.selectedTextRange.end];
-    CGFloat caretY =  MAX(r.origin.y - internalTextView.frame.size.height + r.size.height + 8, 0);
+    CGFloat caretY =  MAX(r.origin.y - internalTextView.frame.size.height + r.size.height + 8 + contentInset.bottom + contentInset.top, 0);
     if (internalTextView.contentOffset.y < caretY && r.origin.y != INFINITY)
         internalTextView.contentOffset = CGPointMake(0, caretY);
 }
@@ -421,8 +421,12 @@
     internalTextViewFrame.size.height = newSizeH; // + padding
     self.frame = internalTextViewFrame;
     
-    internalTextViewFrame.origin.y = contentInset.top - contentInset.bottom;
+    internalTextViewFrame.origin.y = contentInset.top;
     internalTextViewFrame.origin.x = contentInset.left;
+    
+    // force to update contentSize of internalTextView (needed on iOS7)
+    [internalTextView sizeToFit];
+    [internalTextView layoutIfNeeded];
     
     if(!CGRectEqualToRect(internalTextView.frame, internalTextViewFrame)) internalTextView.frame = internalTextViewFrame;
 }
