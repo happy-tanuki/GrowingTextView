@@ -59,7 +59,7 @@
 	} else {
 
 		float bottomOffset = (self.contentSize.height - self.frame.size.height + self.contentInset.bottom);
-		if(s.y < bottomOffset && self.scrollEnabled){            
+		if(s.y + 8 <= bottomOffset && self.scrollEnabled){
             UIEdgeInsets insets = self.contentInset;
             insets.bottom = 8;
             insets.top = 0;
