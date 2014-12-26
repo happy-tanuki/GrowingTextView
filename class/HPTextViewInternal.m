@@ -69,9 +69,25 @@
     
     // Fix "overscrolling" bug
     if (s.y > self.contentSize.height - self.frame.size.height && !self.decelerating && !self.tracking && !self.dragging)
+    {
         s = CGPointMake(s.x, self.contentSize.height - self.frame.size.height);
     
+        if ([self respondsToSelector:@selector(snapshotViewAfterScreenUpdates:)]) {
+            [self performSelector:@selector(resetOverScrollPositionForIOS7) withObject:nil afterDelay:0.1];
+            return;
+        }
+    }
+
 	[super setContentOffset:s];
+}
+
+-(void)resetOverScrollPositionForIOS7
+{
+    CGPoint s = self.contentOffset;
+    if (s.y > self.contentSize.height - self.frame.size.height && !self.decelerating && !self.tracking && !self.dragging) {
+        s = CGPointMake(s.x, self.contentSize.height - self.frame.size.height);
+        [self setContentOffset:s animated:NO];
+    }
 }
 
 -(void)setContentInset:(UIEdgeInsets)s
