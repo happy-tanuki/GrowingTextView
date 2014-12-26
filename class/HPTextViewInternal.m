@@ -103,7 +103,8 @@
 -(void)setContentSize:(CGSize)contentSize
 {
     // is this an iOS5 bug? Need testing!
-    if(self.contentSize.height > contentSize.height)
+    if(self.contentSize.height > contentSize.height
+       && ! [self respondsToSelector:@selector(snapshotViewAfterScreenUpdates:)]) // no need iOS7
     {
         UIEdgeInsets insets = self.contentInset;
         insets.bottom = 0;
