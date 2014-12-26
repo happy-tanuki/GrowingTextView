@@ -412,7 +412,7 @@
         caretY += 8; // needed only on iOS7
     }
     if (internalTextView.contentOffset.y < caretY && r.origin.y != INFINITY) {
-        internalTextView.contentOffset = CGPointMake(0, caretY);
+        [internalTextView setContentOffset:CGPointMake(0, caretY) animated:NO];
         
         BOOL scrollEnabled = internalTextView.scrollEnabled;
         internalTextView.scrollEnabled = !scrollEnabled;
