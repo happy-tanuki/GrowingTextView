@@ -65,6 +65,12 @@
             insets.top = 0;
             self.contentInset = insets;            
         }
+        else if (bottomOffset < 0 && self.scrollEnabled) {
+            UIEdgeInsets insets = self.contentInset;
+            insets.bottom = 0;
+            insets.top = 0;
+            self.contentInset = insets;
+        }
 	}
     
     // Fix "overscrolling" bug
