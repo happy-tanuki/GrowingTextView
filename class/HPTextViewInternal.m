@@ -84,7 +84,7 @@
 -(void)resetOverScrollPositionForIOS7
 {
     CGPoint s = self.contentOffset;
-    if (s.y > self.contentSize.height - self.frame.size.height && !self.decelerating && !self.tracking && !self.dragging) {
+    if (!self.decelerating && !self.tracking && !self.dragging) {
         s = CGPointMake(s.x, self.contentSize.height - self.frame.size.height);
         [self setContentOffset:s animated:NO];
     }
