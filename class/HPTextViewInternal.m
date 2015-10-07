@@ -56,7 +56,7 @@
         insets.top = 0;
         self.contentInset = insets;
         
-    } else if (! [self respondsToSelector:@selector(addLayoutGuide:)] /* new in ios9 */) {
+	} else {
 
 		float bottomOffset = (self.contentSize.height - self.frame.size.height + self.contentInset.bottom);
 		if(s.y + 8 <= bottomOffset && self.scrollEnabled){

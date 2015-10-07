@@ -408,8 +408,8 @@
 {
     CGRect r = [internalTextView caretRectForPosition:internalTextView.selectedTextRange.end];
     CGFloat caretY =  MAX(r.origin.y - internalTextView.frame.size.height + r.size.height + contentInset.bottom + contentInset.top, 0);
-    if (caretY > 0.0 && (![self respondsToSelector:@selector(layoutMarginsDidChange)] || [self respondsToSelector:@selector(addLayoutGuide:)])) {
-        caretY += 8; // needed only on iOS7 or iOS9
+    if (caretY > 0.0 && ![self respondsToSelector:@selector(layoutMarginsDidChange)]) {
+        caretY += 8; // needed only on iOS7
     }
     if (internalTextView.contentOffset.y < caretY && r.origin.y != INFINITY) {
         [internalTextView setContentOffset:CGPointMake(0, caretY) animated:NO];

@@ -44,7 +44,7 @@
 	viewController = [[GrowingTextViewExampleViewController alloc] init];
 	
     // Add the view controller's view to the window and display.
-    [window setRootViewController:viewController];
+    [window addSubview:viewController.view];
     [window makeKeyAndVisible];
 
     return YES;
