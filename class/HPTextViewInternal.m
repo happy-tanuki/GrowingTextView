@@ -65,7 +65,8 @@
             insets.top = 0;
             self.contentInset = insets;            
         }
-        else if (bottomOffset < 0 && self.scrollEnabled) {
+        else if (bottomOffset < 0 && self.scrollEnabled
+                 && ! ([self respondsToSelector:@selector(addLayoutGuide:)] /* new in ios9 */)) {
             UIEdgeInsets insets = self.contentInset;
             insets.bottom = 0;
             insets.top = 0;
