@@ -74,7 +74,8 @@
 	}
     
     // Fix "overscrolling" bug
-    if (s.y > self.contentSize.height - self.frame.size.height && !self.decelerating && !self.tracking && !self.dragging)
+    if (self.contentSize.height > self.frame.size.height // add constraint https://github.com/HansPinckaers/GrowingTextView/issues/114
+        && s.y > self.contentSize.height - self.frame.size.height && !self.decelerating && !self.tracking && !self.dragging)
     {
         s = CGPointMake(s.x, self.contentSize.height - self.frame.size.height);
     
